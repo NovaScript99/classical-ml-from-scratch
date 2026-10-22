@@ -25,8 +25,9 @@ class KNNClassifier:
         if not np.all(np.isfinite(X)):
             raise ValueError("Training features must be finite")
 
-        self.X_train = X
-        self.y_train = y
+        # Store independent copies of the training data.
+        self.X_train = X.copy()
+        self.y_train = y.copy()
 
         return self
 
@@ -51,7 +52,8 @@ class KNNClassifier:
             )
 
             nearest_indices = np.argsort(
-                distances, kind="stable"
+                distances,
+                kind="stable"
             )[:self.k]
 
             nearest_labels = self.y_train[nearest_indices]

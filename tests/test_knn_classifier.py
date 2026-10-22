@@ -89,6 +89,25 @@ class TestKNNClassifier(unittest.TestCase):
         with self.assertRaises(ValueError):
             model.predict([[np.inf, 1]])
 
+    def test_fit_copies_training_data(self):
+        X = np.array([
+            [0.0, 0.0],
+            [10.0, 10.0]
+        ])
+
+        y = np.array([0, 1])
+
+        model = KNNClassifier(k=1).fit(X, y)
+
+        # Modify the original arrays after fitting.
+        X[0] = [100.0, 100.0]
+        y[0] = 9
+
+        # The fitted model should remain unchanged.
+        result = model.predict([[0.1, 0.1]])
+
+        np.testing.assert_array_equal(result, [0])
+
 
 if __name__ == "__main__":
     unittest.main()
