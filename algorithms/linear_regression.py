@@ -7,6 +7,15 @@ def predict(x, w, b):
 
 
 def mse(y_true, y_pred):
+    y_true = np.asarray(y_true)
+    y_pred = np.asarray(y_pred)
+
+    if y_true.shape != y_pred.shape:
+        raise ValueError("Target and prediction shapes must match")
+
+    if y_true.size == 0:
+        raise ValueError("Inputs cannot be empty")
+
     return np.mean((y_true - y_pred) ** 2)
 
 

@@ -10,13 +10,16 @@ class TestLinearRegression(unittest.TestCase):
 
     def test_prediction(self):
         x = np.array([0, 1, 2])
+
         np.testing.assert_array_equal(
-            predict(x, 2, 1), [1, 3, 5]
+            predict(x, 2, 1),
+            [1, 3, 5]
         )
 
     def test_mse(self):
         self.assertAlmostEqual(
-            mse(np.array([1, 2]), np.array([1, 3])), 0.5
+            mse(np.array([1, 2]), np.array([1, 3])),
+            0.5
         )
 
     def test_training(self):
@@ -31,6 +34,17 @@ class TestLinearRegression(unittest.TestCase):
     def test_invalid_data(self):
         with self.assertRaises(ValueError):
             train([1, 2], [3])
+
+    def test_mse_shape_mismatch(self):
+        y_true = np.array([1, 2])
+        y_pred = np.array([[1], [2]])
+
+        with self.assertRaises(ValueError):
+            mse(y_true, y_pred)
+
+    def test_mse_empty_input(self):
+        with self.assertRaises(ValueError):
+            mse(np.array([]), np.array([]))
 
 
 if __name__ == "__main__":
